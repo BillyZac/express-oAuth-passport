@@ -36,6 +36,14 @@ app.use(expressSession(
 app.use(passport.initialize())
 app.use(passport.session())
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 passport.use(new LinkedInStrategy({
   clientID: process.env.LINKEDIN_CLIENT_ID,
   clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
@@ -59,16 +67,16 @@ app.get('/auth/linkedin',
     // function will not be called.
   });
 
-// app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
-//   successRedirect: '/',
-//   failureRedirect: '/login'
-// }))
+app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}))
 
-app.get('/auth/linkedin/callback', function(req, res) {
-  res.send('Yep.')
-})
+// app.get('/auth/linkedin/callback', function(req, res) {
+//   res.send('Yep.')
+// })
 
-// app.use('/', routes);
+app.use('/', routes);
 // app.use('/users', users);
 
 // catch 404 and forward to error handler
