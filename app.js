@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport')
 var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy
+var expressSession = require('express-session')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -23,6 +24,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(expressSession(
+  { secret: process.env.SESSION_SECRET || 'secret shh!!!',
+    resave: false,
+    saveUninitialized: false
+  }
+))
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 passport.use(new LinkedInStrategy({
   clientID: '780x02yshqs0wo',
@@ -47,8 +58,13 @@ app.get('/auth/linkedin',
     // function will not be called.
   });
 
+// app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
+//   successRedirect: '/',
+//   failureRedirect: '/login'
+// }))
+
 app.get('/auth/linkedin/callback', function(req, res) {
-  res.send('Hey!')
+  res.send('Yep.')
 })
 
 // app.use('/', routes);
