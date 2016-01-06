@@ -5,6 +5,17 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    {{#if user}}
+    <p>
+      Hello {{user.displayName}}
+      |
+      <a href="/logout">Log out</a>
+    </p>
+    {{else}}
+    <p>
+      <a href="/auth/linkedin">Log in</a>
+    </p>
+    {{/if}}
     {{{body}}}
   </body>
 </html>
