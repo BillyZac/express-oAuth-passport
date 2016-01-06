@@ -4,10 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log(req.session)
-  res.render('index', {
-    title: 'gdot',
-    user: req.user
-  });
-});
+  res.render('index', { title: 'gdot' })
+})
 
 module.exports = router;

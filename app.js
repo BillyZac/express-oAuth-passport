@@ -75,6 +75,11 @@ app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
 //   res.send('Yep.')
 // })
 
+app.use(function(req, res, next) {
+  res.locals.user = req.user
+  next()
+})
+
 app.use('/', routes);
 // app.use('/users', users);
 
