@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/logout', function(req, res, next) {
   req.logout() // Removes req.user
-  res.locals.user = null // It seems we have to do this too. Weird.
+  res.locals.user = null // Since we put user into locals when they logged in, we have to remove it here.
   res.render('index', { title: 'gdot' })
 })
 
