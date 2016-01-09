@@ -3,13 +3,15 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'gdot' })
+  res.render('index', {
+    title: 'gdot',
+    user: req.user
+ })
 })
 
 router.get('/logout', function(req, res, next) {
-  req.logout() // Removes req.user
-  res.locals.user = null // Since we put user into locals when they logged in, we have to remove it here.
-  res.render('index', { title: 'gdot' })
+  req.logout() // A Passport function. Removes req.user
+  res.redirect('/')
 })
 
 module.exports = router;

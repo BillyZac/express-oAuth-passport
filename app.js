@@ -36,11 +36,14 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  // Here we could convert the user profile returned by the auth strategy
+  // to a format we like better. Alternatively, we could normalize in the LinkedInStrategy itself.
+  // This would apply only to users logging in via LinkedIn, and we may have other auth methods.
+  done(null, user); // Puts the user object into string form to be sent in the res as a cookie called connect.sid.
 });
 
 passport.deserializeUser(function(user, done) {
-  done(null, user);
+  done(null, user); // Makes req.session.passport.user. Passport allows us to access this via req.user.
 });
 
 passport.use(new LinkedInStrategy({
@@ -70,15 +73,6 @@ app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
   successRedirect: '/',
   failureRedirect: '/login'
 }))
-
-// app.get('/auth/linkedin/callback', function(req, res) {
-//   res.send('Yep.')
-// })
-
-app.use(function(req, res, next) {
-  res.locals.user = req.user
-  next()
-})
 
 app.use('/', routes);
 // app.use('/users', users);
